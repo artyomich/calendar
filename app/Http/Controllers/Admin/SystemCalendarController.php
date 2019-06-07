@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use App\Timeslot;
 
 class SystemCalendarController extends Controller
 {
@@ -15,21 +16,24 @@ class SystemCalendarController extends Controller
     {
         $events = [];
 
-        foreach ($this->sources as $source) {
-            foreach ($source['model']::all() as $model) {
-                $crudFieldValue = $model->getOriginal($source['date_field']);
+        foreach (Timeslot::with('servant')->get() as $timeslot) {
+
+                $crudFieldValue = $timeslot->getOriginal('start_time');
 
                 if (!$crudFieldValue) {
                     continue;
                 }
 
+                $eventLabel = $timeslot->start_time;
+                $prefix = "";
+                $suffix = "";
+                $start_time = new Carbon($timeslot->start_time);
+                $end_time = new Carbon($timeslot->end_time);
                 $events[] = [
-                    'title' => trim($source['prefix'] . " " . $model->{$source['field']}
-                        . " " . $source['suffix']),
+                    'title' => $timeslot->servant->surname . ' ' . $start_time->format('H:i') . ' ' . $end_time->format('H:i'),
                     'start' => $crudFieldValue,
-                    'url'   => route($source['route'], $model->id),
+                    'url'   => route('admin.appointments.create') . '?timeslot_id=' . $timeslot->id,
                 ];
-            }
         }
 
         return view('admin.calendar.calendar', compact('events'));

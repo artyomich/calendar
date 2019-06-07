@@ -9,22 +9,9 @@
     <div class="card-body">
         <form action="{{ route("admin.appointments.store") }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="form-group {{ $errors->has('citizen_id') ? 'has-error' : '' }}">
-                <label for="citizen">{{ trans('cruds.appointment.fields.citizen') }}*</label>
-                <select name="citizen_id" id="citizen" class="form-control select2" required>
-                    @foreach($citizens as $id => $citizen)
-                        <option value="{{ $id }}" {{ (isset($appointment) && $appointment->citizen ? $appointment->citizen->id : old('citizen_id')) == $id ? 'selected' : '' }}>{{ $citizen }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('citizen_id'))
-                    <p class="help-block">
-                        {{ $errors->first('citizen_id') }}
-                    </p>
-                @endif
-            </div>
             <div class="form-group {{ $errors->has('start_time') ? 'has-error' : '' }}">
                 <label for="start_time">{{ trans('cruds.appointment.fields.start_time') }}*</label>
-                <input type="text" id="start_time" name="start_time" class="form-control datetime" value="{{ old('start_time', isset($appointment) ? $appointment->start_time : '') }}" required>
+                <input type="text" id="start_time" name="start_time" class="form-control datetime" value="{{ old('start_time', isset($start_time) ? $start_time->toDateTimeString() : '') }}" required>
                 @if($errors->has('start_time'))
                     <p class="help-block">
                         {{ $errors->first('start_time') }}
@@ -36,7 +23,7 @@
             </div>
             <div class="form-group {{ $errors->has('end_time') ? 'has-error' : '' }}">
                 <label for="end_time">{{ trans('cruds.appointment.fields.end_time') }}*</label>
-                <input type="text" id="end_time" name="end_time" class="form-control datetime" value="{{ old('end_time', isset($appointment) ? $appointment->end_time : '') }}" required>
+                <input type="text" id="end_time" name="end_time" class="form-control datetime" value="{{ old('end_time', isset($end_time) ? $end_time->toDateTimeString() : '') }}" required>
                 @if($errors->has('end_time'))
                     <p class="help-block">
                         {{ $errors->first('end_time') }}

@@ -7,7 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyAppointmentRequest;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
+use App\Timeslot;
 use App\User;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentsController extends Controller
 {
@@ -20,22 +24,26 @@ class AppointmentsController extends Controller
         return view('admin.appointments.index', compact('appointments'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         abort_unless(\Gate::allows('appointment_create'), 403);
 
-        $citizens = User::all()->pluck('surname', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $timeslot = Timeslot::find($request->input('timeslot_id'));
+        $start_time = new Carbon($timeslot->start_time);
+        $end_time = $start_time->copy()->addHours('1');
 
-        return view('admin.appointments.create', compact('citizens'));
+        return view('admin.appointments.create',compact('start_time','end_time'));
     }
 
     public function store(StoreAppointmentRequest $request)
     {
         abort_unless(\Gate::allows('appointment_create'), 403);
 
-        $appointment = Appointment::create($request->all());
+        $data = $request->all();
+        $data['citizen_id'] = Auth::id();
+        $appointment = Appointment::create($data);
 
-        return redirect()->route('admin.appointments.index');
+        return redirect()->route('admin.appointments.index',$data);
     }
 
     public function edit(Appointment $appointment)
