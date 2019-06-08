@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 @section('content')
-@can('timeslot_create')
+@can('specialization_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.timeslots.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.timeslot.title_singular') }}
+            <a class="btn btn-success" href="{{ route("admin.specializations.create") }}">
+                {{ trans('global.add') }} {{ trans('cruds.specialization.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.timeslot.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.specialization.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
@@ -23,19 +23,7 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.timeslot.fields.servant') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.timeslot.fields.start_time') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.timeslot.fields.end_time') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.timeslot.fields.specialization') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.timeslot.fields.active') }}
+                            {{ trans('cruds.specialization.fields.name') }}
                         </th>
                         <th>
                             &nbsp;
@@ -43,39 +31,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($timeslots as $key => $timeslot)
-                        <tr data-entry-id="{{ $timeslot->id }}">
+                    @foreach($specializations as $key => $specialization)
+                        <tr data-entry-id="{{ $specialization->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $timeslot->servant->surname ?? '' }}
+                                {{ $specialization->name ?? '' }}
                             </td>
                             <td>
-                                {{ $timeslot->start_time ?? '' }}
-                            </td>
-                            <td>
-                                {{ $timeslot->end_time ?? '' }}
-                            </td>
-                            <td>
-                                {{ $timeslot->specialization->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $timeslot->active ? trans('global.yes') : trans('global.no') }}
-                            </td>
-                            <td>
-                                @can('timeslot_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.timeslots.show', $timeslot->id) }}">
+                                @can('specialization_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.specializations.show', $specialization->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
-                                @can('timeslot_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.timeslots.edit', $timeslot->id) }}">
+                                @can('specialization_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.specializations.edit', $specialization->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
-                                @can('timeslot_delete')
-                                    <form action="{{ route('admin.timeslots.destroy', $timeslot->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('specialization_delete')
+                                    <form action="{{ route('admin.specializations.destroy', $specialization->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -98,7 +74,7 @@
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.timeslots.massDestroy') }}",
+    url: "{{ route('admin.specializations.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -122,7 +98,7 @@
     }
   }
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('timeslot_delete')
+@can('specialization_delete')
   dtButtons.push(deleteButton)
 @endcan
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyTimeslotRequest;
 use App\Http\Requests\StoreTimeslotRequest;
 use App\Http\Requests\UpdateTimeslotRequest;
+use App\Specialization;
 use App\Timeslot;
 use App\User;
 
@@ -26,7 +27,9 @@ class TimeslotsController extends Controller
 
         $servants = User::all()->pluck('surname', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.timeslots.create', compact('servants'));
+        $specializations = Specialization::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.timeslots.create', compact('servants', 'specializations'));
     }
 
     public function store(StoreTimeslotRequest $request)
@@ -43,10 +46,11 @@ class TimeslotsController extends Controller
         abort_unless(\Gate::allows('timeslot_edit'), 403);
 
         $servants = User::all()->pluck('surname', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $specializations = Specialization::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $timeslot->load('servant');
 
-        return view('admin.timeslots.edit', compact('servants', 'timeslot'));
+        return view('admin.timeslots.edit', compact('servants', 'timeslot','specializations'));
     }
 
     public function update(UpdateTimeslotRequest $request, Timeslot $timeslot)
@@ -62,7 +66,7 @@ class TimeslotsController extends Controller
     {
         abort_unless(\Gate::allows('timeslot_show'), 403);
 
-        $timeslot->load('servant');
+        $timeslot->load('servant', 'specialization');
 
         return view('admin.timeslots.show', compact('timeslot'));
     }

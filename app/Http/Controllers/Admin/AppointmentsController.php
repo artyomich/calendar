@@ -30,7 +30,7 @@ class AppointmentsController extends Controller
 
         $timeslot = Timeslot::find($request->input('timeslot_id'));
         $start_time = new Carbon($timeslot->start_time);
-        $end_time = $start_time->copy()->addHours('1');
+        $end_time = $start_time->copy()->addMinutes('15');
 
         return view('admin.appointments.create',compact('start_time','end_time'));
     }

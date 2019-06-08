@@ -10,6 +10,19 @@
         <form action="{{ route("admin.timeslots.update", [$timeslot->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+            <div class="form-group {{ $errors->has('specialization_id') ? 'has-error' : '' }}">
+                <label for="specialization">{{ trans('cruds.timeslot.fields.specialization') }}*</label>
+                <select name="specialization_id" id="specialization" class="form-control select2" required>
+                    @foreach($specializations as $id => $specialization)
+                        <option value="{{ $id }}" {{ (isset($timeslot) && $timeslot->specialization ? $timeslot->specialization->id : old('specialization_id')) == $id ? 'selected' : '' }}>{{ $specialization }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('specialization_id'))
+                    <p class="help-block">
+                        {{ $errors->first('specialization_id') }}
+                    </p>
+                @endif
+            </div>
             <div class="form-group {{ $errors->has('servant_id') ? 'has-error' : '' }}">
                 <label for="servant">{{ trans('cruds.timeslot.fields.servant') }}*</label>
                 <select name="servant_id" id="servant" class="form-control select2" required>
@@ -45,6 +58,19 @@
                 @endif
                 <p class="helper-block">
                     {{ trans('cruds.timeslot.fields.end_time_helper') }}
+                </p>
+            </div>
+            <div class="form-group {{ $errors->has('active') ? 'has-error' : '' }}">
+                <label for="active">{{ trans('cruds.timeslot.fields.active') }}</label>
+                <input name="active" type="hidden" value="0">
+                <input value="1" type="checkbox" id="active" name="active" {{ (isset($timeslot) && $timeslot->active) || old('active', 0) === 1 ? 'checked' : '' }}>
+                @if($errors->has('active'))
+                    <p class="help-block">
+                        {{ $errors->first('active') }}
+                    </p>
+                @endif
+                <p class="helper-block">
+                    {{ trans('cruds.timeslot.fields.active_helper') }}
                 </p>
             </div>
             <div>

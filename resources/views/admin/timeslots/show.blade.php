@@ -34,6 +34,22 @@
                             {{ $timeslot->end_time }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.timeslot.fields.specialization') }}
+                        </th>
+                        <td>
+                            {{ $timeslot->specialization->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.timeslot.fields.active') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled {{ $timeslot->active ? "checked" : "" }}>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <a style="margin-top:20px;" class="btn btn-default" href="{{ url()->previous() }}">

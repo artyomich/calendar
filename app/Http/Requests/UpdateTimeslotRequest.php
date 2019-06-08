@@ -15,17 +15,21 @@ class UpdateTimeslotRequest extends FormRequest
     public function rules()
     {
         return [
-            'servant_id' => [
+            'servant_id'        => [
                 'required',
                 'integer',
             ],
-            'start_time' => [
+            'start_time'        => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
-            'end_time'   => [
+            'end_time'          => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            ],
+            'specialization_id' => [
+                'required',
+                'integer',
             ],
         ];
     }

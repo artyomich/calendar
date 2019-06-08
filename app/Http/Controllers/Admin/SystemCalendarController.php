@@ -30,7 +30,7 @@ class SystemCalendarController extends Controller
                 $start_time = new Carbon($timeslot->start_time);
                 $end_time = new Carbon($timeslot->end_time);
                 $events[] = [
-                    'title' => $timeslot->servant->surname . ' ' . $start_time->format('H:i') . ' ' . $end_time->format('H:i'),
+                    'title' => $start_time->format('H:i') . ' - ' . $end_time->format('H:i'),
                     'start' => $crudFieldValue,
                     'url'   => route('admin.appointments.create') . '?timeslot_id=' . $timeslot->id,
                 ];

@@ -31,7 +31,7 @@ return [
     'save'                                 => 'Сохранить',
     'search'                               => 'Search',
     'show'                                 => 'Показать',
-    'systemCalendar'                       => 'Calendar',
+    'systemCalendar'                       => 'Записаться на приём',
     'thankYouForUsingOurApplication'       => 'Thank you for using our website',
     'timeFrom'                             => 'От',
     'timeTo'                               => 'To',
@@ -241,4 +241,5 @@ return [
     'y_axis_field'                         => 'Поле оси У',
     'you_have_no_messages'                 => 'У вас нет сообщений',
     'calendar'                             => 'Календарь',
+    'Servant'                              => 'Исполнитель',
 ];

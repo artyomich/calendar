@@ -96,6 +96,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('specialization_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.specializations.index") }}" class="nav-link {{ request()->is('admin/specializations') || request()->is('admin/specializations/*') ? 'active' : '' }}">
+                            <i class="fa-fw fas fa-cogs">
+
+                            </i>
+                            <p>
+                                <span>{{ trans('cruds.specialization.title') }}</span>
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is('admin/system-calendar') || request()->is('admin/system-calendar/*') ? 'active' : '' }}">
                         <i class="fas fa-fw fa-calendar">

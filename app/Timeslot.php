@@ -21,13 +21,20 @@ class Timeslot extends Model
     ];
 
     protected $fillable = [
+        'active',
         'end_time',
         'servant_id',
         'start_time',
         'created_at',
         'updated_at',
         'deleted_at',
+        'specialization_id',
     ];
+
+    public function specialization()
+    {
+        return $this->belongsTo(Specialization::class, 'specialization_id');
+    }
 
     public function servant()
     {

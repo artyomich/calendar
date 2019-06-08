@@ -23,10 +23,31 @@
             // page is now ready, initialize the calendar...
             events={!! json_encode($events) !!};
             $('#calendar').fullCalendar({
-                // put your options and callbacks here
+                // put your options and callbacks here START
+                firstDay: 1,
+                weekends: true,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                monthNames: ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+                monthNamesShort: ['Янв.','Фев.','Март','Апр.','Май','οюнь','οюль','Авг.','Сент.','Окт.','Ноя.','Дек.'],
+                dayNames: ["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],
+                dayNamesShort: ["ВС","ПН","ВТ","СР","ЧТ","ПТ","СБ"],
+                buttonText: {
+                    prev: "◄",
+                    next: "►",
+                    prevYear: "◄◄",
+                    nextYear: "►►",
+                    today: "Сегодня",
+                    month: "Месяц",
+                    week: "Неделя",
+                    day: "День"
+                },
+                // put your options and callbacks here END
+
                 events: events,
-
-
             })
         });
 </script>
