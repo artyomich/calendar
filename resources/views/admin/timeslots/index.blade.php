@@ -23,6 +23,9 @@
 
                         </th>
                         <th>
+                            {{ trans('cruds.timeslot.fields.specialization') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.timeslot.fields.servant') }}
                         </th>
                         <th>
@@ -31,9 +34,7 @@
                         <th>
                             {{ trans('cruds.timeslot.fields.end_time') }}
                         </th>
-                        <th>
-                            {{ trans('cruds.timeslot.fields.specialization') }}
-                        </th>
+
                         <th>
                             {{ trans('cruds.timeslot.fields.active') }}
                         </th>
@@ -49,7 +50,10 @@
 
                             </td>
                             <td>
-                                {{ $timeslot->servant->surname ?? '' }}
+                                {{ $timeslot->specialization->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $timeslot->servant->surname  ?? '' }} {{ Str::limit($timeslot->servant->name,1,'.')  ?? '' }} {{ Str::limit($timeslot->servant->middlename,1,'.')  ?? '' }}
                             </td>
                             <td>
                                 {{ $timeslot->start_time ?? '' }}
@@ -57,9 +61,7 @@
                             <td>
                                 {{ $timeslot->end_time ?? '' }}
                             </td>
-                            <td>
-                                {{ $timeslot->specialization->name ?? '' }}
-                            </td>
+
                             <td>
                                 {{ $timeslot->active ? trans('global.yes') : trans('global.no') }}
                             </td>
