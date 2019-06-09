@@ -6,8 +6,9 @@
         {{ trans('global.systemCalendar') }}
 
         <select onchange="reloadCalendar(event)">
+            <option value="0" {{ !isset($filterSpec) ? 'selected' : '' }}>-- выбор --</option>
             @foreach($specializations as $id => $specializations)
-                <option value="{{ $specializations->id }}">{{ $specializations->name }}</option>
+                <option value="{{ $specializations->id }}" {{ (isset($filterSpec) && ($filterSpec == $specializations->id )) ? ' selected' : '' }}>{{ $specializations->name }}</option>
             @endforeach
         </select>
 
@@ -27,7 +28,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
 <script>
     function reloadCalendar(event) {
-        console.log($(event.target));
+        //console.log($(event.target));
         let searchParams = new URLSearchParams(window.location.search);
         searchParams.set('specialization_id',$(event.target).val());
 

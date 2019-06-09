@@ -45,6 +45,6 @@ class SystemCalendarController extends Controller
                 ];
         }
 
-        return view('admin.calendar.calendar', compact('events','specializations'));
+        return view('admin.calendar.calendar', compact('events','specializations', 'filterSpec'));
     }
 }
