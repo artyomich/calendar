@@ -19,6 +19,14 @@ class UpdateAppointmentRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            'specialization_id' => [
+                'required',
+                'integer',
+            ],
+            'servant_id' => [
+                'required',
+                'integer',
+            ],
             'start_time' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),

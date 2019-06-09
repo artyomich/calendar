@@ -9,6 +9,29 @@
     <div class="card-body">
         <form action="{{ route("admin.appointments.store") }}" method="POST" enctype="multipart/form-data">
             @csrf
+
+
+            <input type="hidden" name="specialization_id" value="{{ $specialization_id }}">
+            <input type="hidden" name="servant_id" value="{{ $servant_id }}">
+            <input type="text" name="timeslot_id" value="timeslot_id">
+
+            <label for="name">{{ trans('cruds.specialization.fields.name') }}</label>
+            <input type="text" id="specialization" name="specialization" class="form-control" value="{{ old('specialization', isset($specialization) ? $specialization->name : '') }}">
+            @if($errors->has('specialization'))
+                <p class="help-block">
+                    {{ $errors->first('specialization') }}
+                </p>
+            @endif
+            <p class="helper-block">
+                {{ trans('cruds.specialization.fields.name_helper') }}
+            </p>
+
+            <input type="text" id="servant" name="servant" class="form-control" value="{{ old('servant', isset($servant) ? $servant->surname : '') }}">
+            @if($errors->has('servant'))
+            <p class="helper-block">
+                {{ trans('cruds.servant.fields.name_helper') }}
+            </p>
+            @endif
             <div class="form-group {{ $errors->has('start_time') ? 'has-error' : '' }}">
                 <label for="start_time">{{ trans('cruds.appointment.fields.start_time') }}*</label>
                 <input type="text" id="start_time" name="start_time" class="form-control datetime" value="{{ old('start_time', isset($start_time) ? $start_time->toDateTimeString() : '') }}" required>

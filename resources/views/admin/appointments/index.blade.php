@@ -26,6 +26,12 @@
                             {{ trans('cruds.appointment.fields.citizen') }}
                         </th>
                         <th>
+                            {{ trans('cruds.appointment.fields.specialization') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.appointment.fields.servant') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.appointment.fields.start_time') }}
                         </th>
                         <th>
@@ -43,7 +49,13 @@
 
                             </td>
                             <td>
-                                {{ $appointment->citizen->surname ?? '' }}
+                                {{ $appointment->citizen->surname ?? '' }} {{ Str::limit($appointment->citizen->name,1,'.')  ?? '' }} {{ Str::limit($appointment->citizen->middlename,1,'.')  ?? '' }}
+                            </td>
+                            <td>
+                                {{ $appointment->specialization->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $appointment->servant->surname ?? '' }} {{ $appointment->servant->name ?? '' }} {{ $appointment->servant->middlename ?? '' }}
                             </td>
                             <td>
                                 {{ $appointment->start_time ?? '' }}

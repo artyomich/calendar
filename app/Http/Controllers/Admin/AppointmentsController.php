@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyAppointmentRequest;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
+use App\Specialization;
 use App\Timeslot;
 use App\User;
 use Illuminate\Http\Request;
@@ -28,11 +29,24 @@ class AppointmentsController extends Controller
     {
         abort_unless(\Gate::allows('appointment_create'), 403);
 
-        $timeslot = Timeslot::find($request->input('timeslot_id'));
-        $start_time = new Carbon($timeslot->start_time);
-        $end_time = $start_time->copy()->addMinutes('15');
+        $start_time = Carbon::createFromTimestamp($request->input('start_time'));
+        $end_time = Carbon::createFromTimestamp($request->input('end_time'));
 
-        return view('admin.appointments.create',compact('start_time','end_time'));
+        $timeslots = Timeslot::where('start_time', $start_time)
+            ->where('end_time', $end_time)->get();
+
+        $timeslot = $timeslots->random();
+
+        //dd($timeslot);
+
+
+        //$servant = User::find($request->input('servant_id'));
+        $servant_id = $timeslot->servant_id;
+
+        $specialization = Specialization::find($request->input('specialization_id'));
+        $specialization_id = $specialization->id;
+
+        return view('admin.appointments.create',compact('start_time','end_time','servant_id','specialization','specialization_id'));
     }
 
     public function store(StoreAppointmentRequest $request)
@@ -41,7 +55,12 @@ class AppointmentsController extends Controller
 
         $data = $request->all();
         $data['citizen_id'] = Auth::id();
-        $appointment = Appointment::create($data);
+
+        //dd($data);
+        Appointment::create($data);
+
+        //active = 0; //ставим в резерв Таймслот чтоб в календаре не отображать
+        Timeslot::where('id', $data['timeslot_id'])->update(['active' => 0]);
 
         return redirect()->route('admin.appointments.index',$data);
     }

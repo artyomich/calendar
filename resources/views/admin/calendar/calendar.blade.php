@@ -4,6 +4,13 @@
 <div class="card">
     <div class="card-header">
         {{ trans('global.systemCalendar') }}
+
+        <select onchange="reloadCalendar(event)">
+            @foreach($specializations as $id => $specializations)
+                <option value="{{ $specializations->id }}">{{ $specializations->name }}</option>
+            @endforeach
+        </select>
+
     </div>
 
     <div class="card-body">
@@ -19,6 +26,13 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
 <script>
+    function reloadCalendar(event) {
+        console.log($(event.target));
+        let searchParams = new URLSearchParams(window.location.search);
+        searchParams.set('specialization_id',$(event.target).val());
+
+        window.location.replace('?'+searchParams);
+    }
     $(document).ready(function () {
             // page is now ready, initialize the calendar...
             events={!! json_encode($events) !!};

@@ -23,6 +23,8 @@ class Appointment extends Model
     protected $fillable = [
         'end_time',
         'citizen_id',
+        'specialization_id',
+        'servant_id',
         'start_time',
         'created_at',
         'updated_at',
@@ -32,6 +34,14 @@ class Appointment extends Model
     public function citizen()
     {
         return $this->belongsTo(User::class, 'citizen_id');
+    }
+    public function servant()
+    {
+        return $this->belongsTo(User::class, 'servant_id');
+    }
+    public function specialization()
+    {
+        return $this->belongsTo(User::class, 'specialization_id');
     }
 
     public function getStartTimeAttribute($value)
