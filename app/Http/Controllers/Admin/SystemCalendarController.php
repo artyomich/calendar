@@ -24,12 +24,16 @@ class SystemCalendarController extends Controller
 
 
         $filterSpec = $request->input('specialization_id');
-        foreach (Timeslot::with('servant','specialization')->where('specialization_id',$filterSpec)->get() as $timeslot) {
+        foreach (Timeslot::with('specialization')
+                     ->select('start_time','end_time','specialization_id','active')
+                     ->where('specialization_id',$filterSpec)
+                     ->where('active',1)
+                     ->distinct()
+                     ->get() as $timeslot) {
 
                 $crudFieldValue = $timeslot->getOriginal('start_time');
-                $active = $timeslot->getAttribute('active');
 
-                if ((!$crudFieldValue)||(!$active)){
+                if (!$crudFieldValue){
                     continue;
                 }
 
