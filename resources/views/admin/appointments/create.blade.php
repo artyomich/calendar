@@ -13,7 +13,7 @@
 
             <input type="hidden" name="specialization_id" value="{{ $specialization_id }}">
             <input type="hidden" name="servant_id" value="{{ $servant_id }}">
-            <input type="hidden" name="timeslot_id" value="timeslot_id">
+            <input type="hidden" name="timeslot_id" value="{{ $timeslot_id }}">
 
             <label for="name">{{ trans('cruds.specialization.fields.name') }}</label>
             <input type="text" id="specialization" name="specialization" class="form-control" value="{{ old('specialization', isset($specialization) ? $specialization->name : '') }}">

@@ -36,9 +36,7 @@ class AppointmentsController extends Controller
             ->where('end_time', $end_time)->get();
 
         $timeslot = $timeslots->random();
-
-        //dd($timeslot);
-
+        $timeslot_id = $timeslot->id;
 
         //$servant = User::find($request->input('servant_id'));
         $servant_id = $timeslot->servant_id;
@@ -46,7 +44,7 @@ class AppointmentsController extends Controller
         $specialization = Specialization::find($request->input('specialization_id'));
         $specialization_id = $specialization->id;
 
-        return view('admin.appointments.create',compact('start_time','end_time','servant_id','specialization','specialization_id'));
+        return view('admin.appointments.create',compact('start_time','end_time','servant_id','specialization','specialization_id','timeslot_id'));
     }
 
     public function store(StoreAppointmentRequest $request)
@@ -56,8 +54,8 @@ class AppointmentsController extends Controller
         $data = $request->all();
         $data['citizen_id'] = Auth::id();
 
-        //dd($data);
         Appointment::create($data);
+        //dd($data);
 
         //active = 0; //ставим в резерв Таймслот чтоб в календаре не отображать
         Timeslot::where('id', $data['timeslot_id'])->update(['active' => 0]);
